@@ -16,6 +16,7 @@ ratings:
   - "lib/**"
   - "**.rb"
   - "*.md"
+  - "Rakefile"
 exclude_paths:
 - "Gemfile"
 - "*.gemspec"
