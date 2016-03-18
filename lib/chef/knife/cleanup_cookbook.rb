@@ -9,6 +9,7 @@ class Chef
         require "chef/search/query"
         require "chef/knife/search"
         require "chef/cookbook_version"
+        require "chef/environment"
       end
 
       def run
@@ -30,6 +31,20 @@ class Chef
 
       def cookbook_nodes
         @cookbook_nodes ||= search_nodes("cookbooks_#{@cookbook_name}:*")
+      end
+
+      def environment_versions
+        unless @environment_versions
+          @environment_versions = Hash.new
+          Chef::Environment.list.each do |env_name, url|
+            env = Chef::Environment.load(env_name)
+            if env.cookbook_versions[@cookbook_name]
+              @environment_versions[env.name] = env.cookbook_versions[@cookbook_name]
+            end
+          end
+        end
+
+        @environment_versions
       end
 
       def search_nodes(query)
@@ -55,13 +70,24 @@ class Chef
         cookbook_nodes.length
       end
 
+      def analyze_version(version)
+        cookbook_usage = cookbook_usage_per_version[version]
+        ui.info "#{version} is not used" unless cookbook_usage
+        ui.info "#{version} is used by #{cookbook_usage} hosts" if cookbook_usage
+      end
+
       def output_analysis
         ui.info "Total Nodes using Cookbook: #{total_cookbook_usage}"
         ui.info "Cookbook Versions being used for #{@cookbook_name}"
         all_cookbook_versions.each do |version|
-          cookbook_usage = cookbook_usage_per_version[version]
-          ui.info "#{version} is not used" unless cookbook_usage
-          ui.info "#{version} is used by #{cookbook_usage} hosts" if cookbook_usage
+          analyze_version(version)
+        end
+
+        if environment_versions.any?
+          ui.info "Environment Version Constraints for #{@cookbook_name}"
+          environment_versions.each do |env, constraint|
+            ui.info "#{env} - #{constraint}"
+          end
         end
       end
     end
