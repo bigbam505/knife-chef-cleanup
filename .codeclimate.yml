@@ -13,5 +13,9 @@ engines:
     enabled: true
 ratings:
   paths:
-  - lib/**
+  - "lib/**"
   - "**.rb"
+  - "*.md"
+exclude_paths:
+- "Gemfile"
+- "*.gemspec"
