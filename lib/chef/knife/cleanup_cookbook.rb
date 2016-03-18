@@ -8,6 +8,7 @@ class Chef
       deps do
         require "chef/search/query"
         require "chef/knife/search"
+        require "chef/cookbook_version"
       end
 
       def run
@@ -18,9 +19,7 @@ class Chef
           exit 1
         end
 
-        ui.info "Total Nodes using Cookbook: #{total_cookbook_usage}"
-        ui.info "Cookbook Versions being used"
-        ui.info cookbook_usage_per_version
+        output_analysis
       end
 
       attr_reader :cookbook_name
@@ -37,22 +36,33 @@ class Chef
         Chef::Search::Query.new.search(:node, query).first
       end
 
+      def all_cookbook_versions
+        @all_cookbook_versions ||= Chef::CookbookVersion.available_versions(@cookbook_name).sort
+      end
+
       def cookbook_usage_per_version
-        versions = []
-        counts = Hash.new(0)
+        version_map = Hash.new(0)
         cookbook_nodes.each do |node|
-          name = node.name
           version = node.cookbooks[@cookbook_name].version
 
-          counts[version] += 1
-          versions.push(node: name, version: version)
+          version_map[version] += 1
         end
 
-        counts
+        version_map
       end
 
       def total_cookbook_usage
         cookbook_nodes.length
+      end
+
+      def output_analysis
+        ui.info "Total Nodes using Cookbook: #{total_cookbook_usage}"
+        ui.info "Cookbook Versions being used for #{@cookbook_name}"
+        all_cookbook_versions.each do |version|
+          cookbook_usage = cookbook_usage_per_version[version]
+          ui.info "#{version} is not used" unless cookbook_usage
+          ui.info "#{version} is used by #{cookbook_usage} hosts" if cookbook_usage
+        end
       end
     end
   end
