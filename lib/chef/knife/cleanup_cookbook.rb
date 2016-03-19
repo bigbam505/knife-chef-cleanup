@@ -35,8 +35,8 @@ class Chef
 
       def environment_versions
         unless @environment_versions
-          @environment_versions = Hash.new
-          Chef::Environment.list.each do |env_name, url|
+          @environment_versions = {}
+          Chef::Environment.list.each do |env_name, _url|
             env = Chef::Environment.load(env_name)
             if env.cookbook_versions[@cookbook_name]
               @environment_versions[env.name] = env.cookbook_versions[@cookbook_name]
@@ -76,6 +76,13 @@ class Chef
         ui.info "#{version} is used by #{cookbook_usage} hosts" if cookbook_usage
       end
 
+      def analyze_environments
+        ui.info "Environment Version Constraints for #{@cookbook_name}"
+        environment_versions.each do |env, constraint|
+          ui.info "#{env} - #{constraint}"
+        end
+      end
+
       def output_analysis
         ui.info "Total Nodes using Cookbook: #{total_cookbook_usage}"
         ui.info "Cookbook Versions being used for #{@cookbook_name}"
@@ -83,12 +90,7 @@ class Chef
           analyze_version(version)
         end
 
-        if environment_versions.any?
-          ui.info "Environment Version Constraints for #{@cookbook_name}"
-          environment_versions.each do |env, constraint|
-            ui.info "#{env} - #{constraint}"
-          end
-        end
+        analyze_environments if environment_versions.any?
       end
     end
   end
