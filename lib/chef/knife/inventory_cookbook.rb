@@ -2,8 +2,8 @@ require "chef/knife"
 
 class Chef
   class Knife
-    class CleanupCookbook < Knife
-      banner "knife cleanup cookbook"
+    class InventoryCookbook < Knife
+      banner "knife inventory cookbook"
 
       deps do
         require "chef/search/query"

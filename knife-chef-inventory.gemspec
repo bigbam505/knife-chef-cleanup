@@ -1,13 +1,13 @@
 $LOAD_PATH.push File.expand_path("../lib", __FILE__)
-require "knife-chef-cleanup/version"
+require "knife-chef-inventory/version"
 
 Gem::Specification.new do |s|
-  s.name        = "knife-chef-cleanup"
-  s.version     = Knife::CookbookCleaner::VERSION
+  s.name        = "knife-chef-inventory"
+  s.version     = Knife::ChefInventory::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = "Brent Montague"
   s.email       = "brent@bmontague.com"
-  s.homepage    = "https://github.com/bigbam505/knife-chef-cleanup"
+  s.homepage    = "https://github.com/bigbam505/knife-chef-inventory"
   s.summary     = "Chef Knife plugin to help cleanup outdated cookbooks"
   s.description = "A knife plugin to see cookbooks that can be deleted"
 
