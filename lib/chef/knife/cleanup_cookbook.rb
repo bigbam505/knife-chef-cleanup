@@ -12,13 +12,11 @@ class Chef
         require "chef/environment"
       end
 
-      option :env_constraints, {
-        short: '-c',
-        long: '--env-constraints',
-        description: 'Show any environment constraints',
-        boolean: true,
-        default: false
-      }
+      option :env_constraints, short: "-c",
+                               long: "--env-constraints",
+                               description: "Show any environment constraints",
+                               boolean: true,
+                               default: false
 
       def run
         @cookbook_name = name_args[0]
@@ -50,7 +48,8 @@ class Chef
       end
 
       def cookbook_version_nodes
-        @cookbook_version_nodes ||= search_nodes("cookbooks_#{@cookbook_name}_version:#{@cookbook_version}")
+        @cookbook_version_nodes ||=
+          search_nodes("cookbooks_#{@cookbook_name}_version:#{@cookbook_version}")
       end
 
       def environment_versions
@@ -105,12 +104,12 @@ class Chef
       end
 
       def time_since(timestamp)
-        (Time.now - Time.at(timestamp)).to_i/60
+        (Time.now - Time.at(timestamp)).to_i / 60
       end
 
       def output_version_analysis
         ui.info "Cookbook Versions being used for #{@cookbook_name}"
-        cookbook_version_nodes.sort_by {|node| node.ohai_time}.each do |node|
+        cookbook_version_nodes.sort_by(&:ohai_time).each do |node|
           ui.info "#{node.name} - #{time_since(node.ohai_time)} Minutes"
         end
       end

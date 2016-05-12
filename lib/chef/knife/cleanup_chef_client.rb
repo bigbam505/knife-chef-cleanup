@@ -55,18 +55,18 @@ class Chef
 
       def analyze_version(version)
         client_usage = client_usage_per_version[version]
-        if client_usage
-          ui.info "#{version} is used by #{client_usage} hosts" if client_usage > 0
-        end
+        return unless  client_usage
+
+        ui.info "#{version} is used by #{client_usage} hosts" if client_usage > 0
       end
 
       def time_since(timestamp)
-        (Time.now - Time.at(timestamp)).to_i/60
+        (Time.now - Time.at(timestamp)).to_i / 60
       end
 
       def output_version_analysis
         ui.info "Client Versions being used"
-        client_version_nodes.sort_by {|node| node.ohai_time}.each do |node|
+        client_version_nodes.sort_by(&:ohai_time).each do |node|
           ui.info "#{node.name} - #{time_since(node.ohai_time)} Minutes"
         end
       end

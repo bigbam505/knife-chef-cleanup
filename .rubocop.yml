@@ -1,5 +1,7 @@
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+Metrics/MethodLength:
+  Max: 12
 Metrics/LineLength:
   Max: 100
   AllowHeredoc: true
