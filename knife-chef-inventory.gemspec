@@ -11,12 +11,14 @@ Gem::Specification.new do |s|
   s.summary     = "Chef Knife plugin to help cleanup outdated cookbooks"
   s.description = "A knife plugin to see cookbooks that can be deleted"
 
+  s.license     = "Apache License, v2.0"
+
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
 
-  s.add_dependency "chef", "> 0.10.10"
+  s.add_dependency "chef", "~> 12.0"
 
   s.add_development_dependency "bundler", "~> 1.6"
-  s.add_development_dependency "rake"
-  s.add_development_dependency "rubocop"
+  s.add_development_dependency "rake", "~> 11.1"
+  s.add_development_dependency "rubocop", "~> 0.38"
 end
