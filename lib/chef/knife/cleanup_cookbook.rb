@@ -12,25 +12,45 @@ class Chef
         require "chef/environment"
       end
 
+      option :env_constraints, {
+        short: '-c',
+        long: '--env-constraints',
+        description: 'Show any environment constraints',
+        boolean: true,
+        default: false
+      }
+
       def run
         @cookbook_name = name_args[0]
+        @cookbook_version = name_args[1]
+        @show_env_constraints = config[:env_constraints]
 
         unless @cookbook_name
           ui.error "You need to specify a cookbook"
           exit 1
         end
 
-        output_analysis
+        if @cookbook_version
+          output_version_analysis
+        else
+          output_analysis
+        end
       end
 
       attr_reader :cookbook_name
+      attr_reader :cookbook_version
 
       private
 
       attr_writer :cookbook_name
+      attr_writer :cookbook_version
 
       def cookbook_nodes
         @cookbook_nodes ||= search_nodes("cookbooks_#{@cookbook_name}:*")
+      end
+
+      def cookbook_version_nodes
+        @cookbook_version_nodes ||= search_nodes("cookbooks_#{@cookbook_name}_version:#{@cookbook_version}")
       end
 
       def environment_versions
@@ -72,8 +92,9 @@ class Chef
 
       def analyze_version(version)
         cookbook_usage = cookbook_usage_per_version[version]
-        ui.info "#{version} is not used" unless cookbook_usage
-        ui.info "#{version} is used by #{cookbook_usage} hosts" if cookbook_usage
+        if cookbook_usage
+          ui.info "#{version} is used by #{cookbook_usage} hosts" if cookbook_usage > 0
+        end
       end
 
       def analyze_environments
@@ -83,14 +104,24 @@ class Chef
         end
       end
 
+      def time_since(timestamp)
+        (Time.now - Time.at(timestamp)).to_i/60
+      end
+
+      def output_version_analysis
+        ui.info "Cookbook Versions being used for #{@cookbook_name}"
+        cookbook_version_nodes.sort_by {|node| node.ohai_time}.each do |node|
+          ui.info "#{node.name} - #{time_since(node.ohai_time)} Minutes"
+        end
+      end
+
       def output_analysis
         ui.info "Total Nodes using Cookbook: #{total_cookbook_usage}"
-        ui.info "Cookbook Versions being used for #{@cookbook_name}"
         all_cookbook_versions.each do |version|
           analyze_version(version)
         end
 
-        analyze_environments if environment_versions.any?
+        analyze_environments if @show_env_constraints && environment_versions.any?
       end
     end
   end
