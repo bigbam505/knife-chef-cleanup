@@ -3,7 +3,7 @@ require "chef/knife"
 class Chef
   class Knife
     class InventoryCookbook < Knife
-      banner "knife inventory cookbook"
+      banner "knife inventory cookbook COOKBOOK [VERSION] (options)"
 
       deps do
         require "chef/search/query"
