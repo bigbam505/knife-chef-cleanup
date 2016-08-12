@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
 
-  s.add_dependency "chef", "~> 12.0"
+  s.add_dependency "chef", "<= 12.11.18"
 
   s.add_development_dependency "bundler", "~> 1.6"
   s.add_development_dependency "rake", "~> 11.1"
