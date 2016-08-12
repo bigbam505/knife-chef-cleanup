@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "chef/knife"
 
 class Chef
@@ -92,7 +93,7 @@ class Chef
       def analyze_version(version)
         cookbook_usage = cookbook_usage_per_version[version]
         if cookbook_usage
-          ui.info "#{version} is used by #{cookbook_usage} hosts" if cookbook_usage > 0
+          ui.info "#{version} is used by #{cookbook_usage} hosts" if cookbook_usage.positive?
         end
       end
 
