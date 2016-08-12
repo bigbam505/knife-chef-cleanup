@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = "Brent Montague"
   s.email       = "brent@bmontague.com"
-  s.homepage    = "https://github.com/bigbam505/knife-chef-inventory"
+  s.homepage    = "https://github.com/brentm5/knife-chef-inventory"
   s.summary     = "Chef Knife plugin to help cleanup outdated cookbooks"
   s.description = "A knife plugin to see cookbooks that can be deleted"
 
@@ -21,4 +21,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "bundler", "~> 1.6"
   s.add_development_dependency "rake", "~> 11.1"
   s.add_development_dependency "rubocop", "~> 0.38"
+  s.add_development_dependency "github_changelog_generator", "~> 1.13"
 end
