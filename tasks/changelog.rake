@@ -7,7 +7,7 @@ begin
     config.issues = false
     config.enhancement_labels = %w(enhancement)
     config.bug_labels = %w(bug)
-    config.exclude_labels = %w(cleanup duplicate question wontfix no_changelog)
+    config.exclude_labels = %w(no_changelog)
   end
 rescue LoadError
   puts "Problem loading gems please install chef and github_changelog_generator"
