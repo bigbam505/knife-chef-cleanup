@@ -1,10 +1,18 @@
 # Change Log
 
+## [v0.2.0](https://github.com/brentm5/knife-chef-inventory/tree/v0.2.0) (2016-08-16)
+[Full Changelog](https://github.com/brentm5/knife-chef-inventory/compare/v0.1.0...v0.2.0)
+
+**Merged pull requests:**
+
+- Fix when using ruby 2.1.8 [\#9](https://github.com/brentm5/knife-chef-inventory/pull/9) ([brentm5](https://github.com/brentm5))
+
 ## [v0.1.0](https://github.com/brentm5/knife-chef-inventory/tree/v0.1.0) (2016-08-12)
 [Full Changelog](https://github.com/brentm5/knife-chef-inventory/compare/v0.0.1...v0.1.0)
 
 **Merged pull requests:**
 
+- Add changelog generator and cleanup naming [\#7](https://github.com/brentm5/knife-chef-inventory/pull/7) ([brentm5](https://github.com/brentm5))
 - Update banner for inventory\_cookbook.rb [\#6](https://github.com/brentm5/knife-chef-inventory/pull/6) ([afiune](https://github.com/afiune))
 - Add more information to readme [\#4](https://github.com/brentm5/knife-chef-inventory/pull/4) ([brentm5](https://github.com/brentm5))
 - Add more to the readme and fix travis [\#3](https://github.com/brentm5/knife-chef-inventory/pull/3) ([brentm5](https://github.com/brentm5))
