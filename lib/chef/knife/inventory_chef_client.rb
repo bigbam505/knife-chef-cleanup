@@ -42,7 +42,7 @@ class Chef
       def client_usage_per_version
         version_map = Hash.new(0)
         all_nodes.each do |node|
-          version = node.chef_packages.chef.version
+          version = node["chef_packages"]["chef"]["version"]
 
           version_map[version] += 1
         end
@@ -67,8 +67,8 @@ class Chef
 
       def output_version_analysis
         ui.info "Client Versions being used"
-        client_version_nodes.sort_by(&:ohai_time).each do |node|
-          ui.info "#{node.name} - #{time_since(node.ohai_time)} Minutes"
+        client_version_nodes.sort_by { |node| node["ohai_time"] }.each do |node|
+          ui.info "#{node.name} - #{time_since(node['ohai_time'])} Minutes"
         end
       end
 
