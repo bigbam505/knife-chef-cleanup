@@ -36,7 +36,17 @@ class Chef
       end
 
       def search_nodes(query)
-        Chef::Search::Query.new.search(:node, query).first
+        Chef::Search::Query.new.search(:node, query, search_args).first
+      end
+
+      def search_args
+        {
+          rows: max_results
+        }
+      end
+
+      def max_results
+        Chef::Node.list.count || 1000
       end
 
       def client_usage_per_version
