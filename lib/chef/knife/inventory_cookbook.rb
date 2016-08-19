@@ -1,9 +1,10 @@
-# frozen_string_literal: true
 require "chef/knife"
+require "knife-chef-inventory/shared"
 
 class Chef
   class Knife
     class InventoryCookbook < Knife
+      include KnifeChefInventory::Shared
       banner "knife inventory cookbook COOKBOOK [VERSION] (options)"
 
       deps do
@@ -67,8 +68,15 @@ class Chef
         @environment_versions
       end
 
-      def search_nodes(query)
-        Chef::Search::Query.new.search(:node, query).first
+      def search_args
+        {
+          rows: max_results,
+          filter_result: {
+            name: ["name"],
+            cookbook_version: ["cookbooks", @cookbook_name, "version"],
+            ohai_time: ["ohai_time"]
+          }
+        }
       end
 
       def all_cookbook_versions
@@ -78,7 +86,7 @@ class Chef
       def cookbook_usage_per_version
         version_map = Hash.new(0)
         cookbook_nodes.each do |node|
-          version = node["cookbooks"][@cookbook_name]["version"]
+          version = node["cookbook_version"]
 
           version_map[version] += 1
         end
@@ -104,14 +112,10 @@ class Chef
         end
       end
 
-      def time_since(timestamp)
-        (Time.now - Time.at(timestamp)).to_i / 60
-      end
-
       def output_version_analysis
         ui.info "Cookbook Versions being used for #{@cookbook_name}"
         cookbook_version_nodes.sort_by { |node| node["ohai_time"] }.each do |node|
-          ui.info "#{node.name} - #{time_since(node['ohai_time'])} Minutes"
+          ui.info "#{node['name']} - #{time_since(node['ohai_time'])} Minutes"
         end
       end
 

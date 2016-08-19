@@ -1,9 +1,10 @@
-# frozen_string_literal: true
 require "chef/knife"
+require "knife-chef-inventory/shared"
 
 class Chef
   class Knife
     class InventoryChefClient < Knife
+      include KnifeChefInventory::Shared
       banner "knife inventory chef_client"
 
       deps do
@@ -35,24 +36,21 @@ class Chef
         @client_version_nodes ||= search_nodes("chef_packages_chef_version:#{@client_version}")
       end
 
-      def search_nodes(query)
-        Chef::Search::Query.new.search(:node, query, search_args).first
-      end
-
       def search_args
         {
-          rows: max_results
+          rows: max_results,
+          filter_result: {
+            name: ["name"],
+            chef_version: %w(chef_packages chef version),
+            ohai_time: ["ohai_time"]
+          }
         }
-      end
-
-      def max_results
-        Chef::Node.list.count || 1000
       end
 
       def client_usage_per_version
         version_map = Hash.new(0)
         all_nodes.each do |node|
-          version = node["chef_packages"]["chef"]["version"]
+          version = node["chef_version"]
 
           version_map[version] += 1
         end
@@ -71,14 +69,10 @@ class Chef
         ui.info "#{version} is used by #{client_usage} hosts" if client_usage > 0
       end
 
-      def time_since(timestamp)
-        (Time.now - Time.at(timestamp)).to_i / 60
-      end
-
       def output_version_analysis
         ui.info "Client Versions being used"
         client_version_nodes.sort_by { |node| node["ohai_time"] }.each do |node|
-          ui.info "#{node.name} - #{time_since(node['ohai_time'])} Minutes"
+          ui.info "#{node['name']} - #{time_since(node['ohai_time'])} Minutes"
         end
       end
 
