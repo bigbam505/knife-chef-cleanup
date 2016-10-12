@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "chef/knife"
 require "knife-chef-inventory/shared"
 
@@ -66,7 +67,7 @@ class Chef
         client_usage = client_usage_per_version[version]
         return unless  client_usage
 
-        ui.info "#{version} is used by #{client_usage} hosts" if client_usage > 0
+        ui.info "#{version} is used by #{client_usage} hosts" if client_usage.positive?
       end
 
       def output_version_analysis
