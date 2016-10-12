@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module KnifeChefInventory
   module Shared
     def time_since(timestamp)
