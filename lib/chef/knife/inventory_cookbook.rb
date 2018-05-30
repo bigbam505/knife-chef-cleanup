@@ -26,8 +26,16 @@ class Chef
         @cookbook_version = name_args[1]
         @show_env_constraints = config[:env_constraints]
 
-        unless @cookbook_name
-          ui.error "You need to specify a cookbook"
+        if @cookbook_name
+          cookbook_object = search_nodes("cookbooks_#{@cookbook_name}:*")
+          if cookbook_object.to_s == '[]'
+            ui.fatal "The cookbook name you provided #{cookbook_name} does not exist on the Chef server."
+            show_usage
+            exit 1
+          end
+        else
+          ui.fatal "You did not specify a cookbook. You need to specify a cookbook."
+          show_usage
           exit 1
         end
 
