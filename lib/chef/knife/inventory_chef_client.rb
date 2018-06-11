@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "chef/knife"
 require "knife-chef-inventory/shared"
 
@@ -42,7 +43,7 @@ class Chef
           rows: max_results,
           filter_result: {
             name: ["name"],
-            chef_version: %w(chef_packages chef version),
+            chef_version: %w[chef_packages chef version],
             ohai_time: ["ohai_time"]
           }
         }

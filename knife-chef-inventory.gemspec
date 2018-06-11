@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-$LOAD_PATH.push File.expand_path("../lib", __FILE__)
+
+$LOAD_PATH.push File.expand_path("lib", __dir__)
 require "knife-chef-inventory/version"
 
 Gem::Specification.new do |s|
@@ -17,12 +18,12 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
 
-  s.required_ruby_version = "~> 2.1"
+  s.required_ruby_version = "~> 2.3"
 
   s.add_dependency "chef", "~> 12.11"
 
   s.add_development_dependency "bundler", "~> 1.6"
-  s.add_development_dependency "rake", "~> 11.1"
-  s.add_development_dependency "rubocop", "~> 0.38"
   s.add_development_dependency "github_changelog_generator", "~> 1.13"
+  s.add_development_dependency "rake", "~> 11.1"
+  s.add_development_dependency "rubocop", "~> 0.49"
 end

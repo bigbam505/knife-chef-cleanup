@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "chef/knife"
 require "knife-chef-inventory/shared"
 
@@ -66,7 +67,7 @@ class Chef
       def environment_versions
         unless @environment_versions
           @environment_versions = {}
-          Chef::Environment.list.each do |env_name, _url|
+          Chef::Environment.list.each_key do |env_name|
             env = Chef::Environment.load(env_name)
             if env.cookbook_versions[@cookbook_name]
               @environment_versions[env.name] = env.cookbook_versions[@cookbook_name]
