@@ -1,5 +1,13 @@
 # Change Log
 
+## [v0.3.0](https://github.com/brentm5/knife-chef-inventory/tree/v0.3.0) (2019-06-13)
+[Full Changelog](https://github.com/brentm5/knife-chef-inventory/compare/v0.2.1...v0.3.0)
+
+**Merged pull requests:**
+
+- Update Chef dependency to be \>= 12.11 and \< 16 [\#18](https://github.com/brentm5/knife-chef-inventory/pull/18) ([amcappelli](https://github.com/amcappelli))
+- Fix the master branch style issues [\#17](https://github.com/brentm5/knife-chef-inventory/pull/17) ([brentm5](https://github.com/brentm5))
+
 ## [v0.2.1](https://github.com/brentm5/knife-chef-inventory/tree/v0.2.1) (2016-08-19)
 [Full Changelog](https://github.com/brentm5/knife-chef-inventory/compare/v0.2.0...v0.2.1)
 
