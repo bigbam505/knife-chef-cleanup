@@ -103,6 +103,7 @@ class Chef
       def analyze_version(version)
         cookbook_usage = cookbook_usage_per_version[version]
         return unless cookbook_usage
+
         ui.info "#{version} is used by #{cookbook_usage} hosts" if cookbook_usage.positive?
       end
 
