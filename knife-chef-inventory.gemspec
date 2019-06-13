@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = "~> 2.3"
 
-  s.add_dependency "chef", "~> 12.11"
+  s.add_dependency "chef", ">= 12.11", "< 16"
 
   s.add_development_dependency "bundler", "~> 1.6"
   s.add_development_dependency "github_changelog_generator", "~> 1.13"
